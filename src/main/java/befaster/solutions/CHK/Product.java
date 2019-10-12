@@ -22,6 +22,7 @@ public class Product {
     }
 
     public int getTotalPrice(int quantity) {
-
+        return quantity * unitPrice; //Will come back to this in a minute
     }
 }
+
