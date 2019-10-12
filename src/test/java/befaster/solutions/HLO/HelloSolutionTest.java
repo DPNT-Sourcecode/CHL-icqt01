@@ -10,7 +10,8 @@ public class HelloSolutionTest {
 
     @Test
     public void testHello() {
-        assertEquals("Hello, Joe", solutionUnderTest.hello("Joe"));
+        assertEquals("Hello, World!", solutionUnderTest.hello("Joe"));
     }
 
 }
+
