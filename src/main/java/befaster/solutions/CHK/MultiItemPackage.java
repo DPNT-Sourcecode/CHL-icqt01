@@ -36,16 +36,6 @@ public class MultiItemPackage {
     return discountedPrice;
   }
 
-  public PackageEvaluation evaluatePackage(Map<Product, Integer> basket) {
-    Map<Product, Integer> copy = new HashMap<>(basket);
-    int numBaskets = 0;
-    while (basketContainsAllItems(copy)) {
-      numBaskets++;
-      removePackageItemsFromBasket(copy);
-    }
-    return new PackageEvaluation(numBaskets, numBaskets * getDiscount());
-  }
-
   public boolean basketContainsAllItems(Map<Product, Integer> basket) {
     return itemsByQuantity.entrySet().stream()
         .allMatch(item -> basket.getOrDefault(item.getKey(), 0) >= item.getValue());
@@ -82,6 +72,3 @@ public class MultiItemPackage {
     }
   }
 }
-
-
-
