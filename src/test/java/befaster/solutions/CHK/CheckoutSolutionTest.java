@@ -21,7 +21,7 @@ public class CheckoutSolutionTest {
 
     @Test
     public void testInvalidItemInBasketReturnsNegativeOne() {
-        assertEquals(-1, checkout.checkout("ABCDEFG").intValue());
+        assertEquals(-1, checkout.checkout("ABCDEFG-").intValue());
     }
 
     @Test
@@ -88,6 +88,7 @@ public class CheckoutSolutionTest {
     }
 
 }
+
 
 
 
