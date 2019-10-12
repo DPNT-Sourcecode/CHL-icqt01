@@ -60,6 +60,12 @@ public class CheckoutSolutionTest {
         assertEquals(80, checkout.checkout("EE").intValue());
     }
 
+    @Test
+    public void testFreeOffer() {
+        assertEquals(80, checkout.checkout("EBE").intValue());
+    }
+
 }
+
 
 
