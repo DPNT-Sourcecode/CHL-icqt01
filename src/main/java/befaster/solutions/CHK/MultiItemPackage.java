@@ -35,5 +35,3 @@ public class MultiItemPackage {
     return undiscountedPrice - discountedPrice;
   }
 }
-
-

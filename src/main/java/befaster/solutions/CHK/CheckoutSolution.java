@@ -14,8 +14,8 @@ public class CheckoutSolution {
 
   private Map<Character, Product> productsBySku =
       ImmutableMap.of(
-          'A', new Product('A', 50), // .withMultibuyOffer(3, 130).withMultibuyOffer(5, 200),
-          'B', new Product('B', 30), // .withMultibuyOffer(2, 45),
+          'A', new Product('A', 50),
+          'B', new Product('B', 30),
           'C', new Product('C', 20),
           'D', new Product('D', 15),
           'E', new Product('E', 40));
@@ -24,9 +24,13 @@ public class CheckoutSolution {
       new TreeSet<>(Comparator.comparing(MultiItemPackage::getDiscount).reversed());
 
   public CheckoutSolution() {
+    // multi-item discounts
     multiItemPackages.add(new MultiItemPackage(ImmutableMap.of(productsBySku.get('A'), 3), 130));
     multiItemPackages.add(new MultiItemPackage(ImmutableMap.of(productsBySku.get('A'), 5), 200));
     multiItemPackages.add(new MultiItemPackage(ImmutableMap.of(productsBySku.get('B'), 2), 45));
+
+    // buy 2E get B free
+    multiItemPackages.add(new MultiItemPackage(ImmutableMap.of(productsBySku.get('E'), 2, productsBySku.get('B'), 1), 2 * productsBySku.get('E').getUnitPrice()));
   }
 
   public Integer checkout(String skus) {
@@ -58,5 +62,3 @@ public class CheckoutSolution {
         .forEach((product, quantity) -> basket.merge(product, -quantity, Integer::sum));
   }
 }
-
-
