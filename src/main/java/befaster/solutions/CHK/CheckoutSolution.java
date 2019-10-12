@@ -61,10 +61,8 @@ public class CheckoutSolution {
       if (bestPackage == null) {
         break;
       }
-      for (int i = 0; i < bestPackage.getValue().getNumPossiblePackages(); i++) {
-        packagesInBasket.add(bestPackage.getKey());
-        bestPackage.getKey().removePackageItemsFromBasket(basketItems);
-      }
+      packagesInBasket.add(bestPackage.getKey());
+      bestPackage.getKey().removePackageItemsFromBasket(basketItems);
     }
     return packagesInBasket.stream().mapToInt(MultiItemPackage::getDiscountedPrice).sum()
         + basketItems.entrySet().stream()
@@ -72,6 +70,7 @@ public class CheckoutSolution {
             .sum();
   }
 }
+
 
 
 
