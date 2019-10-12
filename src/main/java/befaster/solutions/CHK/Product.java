@@ -24,6 +24,10 @@ public class Product {
     return this;
   }
 
+  public int getUnitPrice() {
+    return unitPrice;
+  }
+
   public int getTotalPrice(int quantity) {
     int remaining = quantity;
     int total = 0;
@@ -36,3 +40,4 @@ public class Product {
     return total + remaining * unitPrice;
   }
 }
+
