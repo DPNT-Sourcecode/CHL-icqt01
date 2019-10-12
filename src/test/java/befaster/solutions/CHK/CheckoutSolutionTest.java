@@ -77,5 +77,11 @@ public class CheckoutSolutionTest {
         assertEquals(580, checkout.checkout("AAAAA" + "AAAAA" + "AAAA").intValue());
     }
 
+    @Test
+    public void testNewF() {
+        assertEquals(20, checkout.checkout("FF").intValue());
+    }
+
 }
+
 

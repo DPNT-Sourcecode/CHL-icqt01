@@ -13,12 +13,14 @@ import java.util.TreeSet;
 public class CheckoutSolution {
 
   private Map<Character, Product> productsBySku =
-      ImmutableMap.of(
-          'A', new Product('A', 50),
-          'B', new Product('B', 30),
-          'C', new Product('C', 20),
-          'D', new Product('D', 15),
-          'E', new Product('E', 40));
+      ImmutableMap.<Character, Product>builder()
+          .put('A', new Product('A', 50))
+          .put('B', new Product('B', 30))
+          .put('C', new Product('C', 20))
+          .put('D', new Product('D', 15))
+          .put('E', new Product('E', 40))
+          .put('F', new Product('F', 10))
+          .build();
 
   private SortedSet<MultiItemPackage> multiItemPackages =
       new TreeSet<>(Comparator.comparing(MultiItemPackage::getDiscount).reversed());
@@ -58,3 +60,4 @@ public class CheckoutSolution {
             .sum();
   }
 }
+
