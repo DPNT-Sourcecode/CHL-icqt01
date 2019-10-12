@@ -19,8 +19,7 @@ public class CheckoutSolution {
 
   private Map<Character, Product> productsBySku;
 
-  private List<MultiItemPackage> multiItemPackages =
-      new ArrayList<>();
+  private List<MultiItemPackage> multiItemPackages = new ArrayList<>();
 
   public CheckoutSolution() {
     productsBySku = readPriceList();
@@ -31,40 +30,48 @@ public class CheckoutSolution {
 
   private ImmutableMap<Character, Product> readPriceList() {
     ImmutableMap.Builder<Character, Product> builder = ImmutableMap.builder();
-    readFile("prices.txt", line -> {
-      String[] pieces = line.split(",");
-      char sku = pieces[0].charAt(0);
-      int price = Integer.parseInt(pieces[1]);
-      builder.put(sku, new Product(sku, price));
-    });
+    readFile(
+        "prices.txt",
+        line -> {
+          String[] pieces = line.split(",");
+          char sku = pieces[0].charAt(0);
+          int price = Integer.parseInt(pieces[1]);
+          builder.put(sku, new Product(sku, price));
+        });
     return builder.build();
   }
 
   private List<MultiItemPackage> readMultibuyList() {
     List<MultiItemPackage> packages = new ArrayList<>();
-    readFile("multibuys.txt", line -> {
-      String[] pieces = line.split(",");
-      char sku = pieces[0].charAt(0);
-      int qty = Integer.parseInt(pieces[1]);
-      int price = Integer.parseInt(pieces[2]);
-      packages.add(MultiItemPackage.itemDiscount(productsBySku.get(sku), qty, price));
-    });
+    readFile(
+        "multibuys.txt",
+        line -> {
+          String[] pieces = line.split(",");
+          char sku = pieces[0].charAt(0);
+          int qty = Integer.parseInt(pieces[1]);
+          int price = Integer.parseInt(pieces[2]);
+          packages.add(MultiItemPackage.itemDiscount(productsBySku.get(sku), qty, price));
+        });
     return packages;
   }
 
   private List<MultiItemPackage> readFreeItemsList() {
     List<MultiItemPackage> packages = new ArrayList<>();
-    readFile("freeitems.txt", line -> {
-      String[] pieces = line.split(",");
-      Map<Product, Integer> itemsToBuy = parseString(pieces[0]);
-      Map<Product, Integer> freeItems = parseString(pieces[1]);
-      packages.add(MultiItemPackage.freeItem(itemsToBuy, freeItems));
-    });
+    readFile(
+        "freeitems.txt",
+        line -> {
+          String[] pieces = line.split(",");
+          Map<Product, Integer> itemsToBuy = parseString(pieces[0]);
+          Map<Product, Integer> freeItems = parseString(pieces[1]);
+          packages.add(MultiItemPackage.freeItem(itemsToBuy, freeItems));
+        });
     return packages;
   }
 
   private Map<Product, Integer> parseString(String str) {
-    return str.chars().mapToObj(sku -> productsBySku.get(sku)).collect(Collectors.toMap(Function.identity(), p -> 1, Integer::sum));
+    return str.chars()
+        .mapToObj(sku -> productsBySku.get((char) sku))
+        .collect(Collectors.toMap(Function.identity(), p -> 1, Integer::sum));
   }
 
   private void readFile(String filename, Consumer<String> lineAction) {
@@ -101,4 +108,5 @@ public class CheckoutSolution {
             .sum();
   }
 }
+
 
