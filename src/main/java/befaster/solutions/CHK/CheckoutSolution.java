@@ -36,6 +36,12 @@ public class CheckoutSolution {
         MultiItemPackage.freeItem(
             ImmutableMap.of(productsBySku.get('E'), 2),
             ImmutableMap.of(productsBySku.get('B'), 1)));
+
+    // buy 2F get F free
+    multiItemPackages.add(
+        MultiItemPackage.freeItem(
+            ImmutableMap.of(productsBySku.get('F'), 2),
+            ImmutableMap.of(productsBySku.get('F'), 1)));
   }
 
   public Integer checkout(String skus) {
@@ -60,4 +66,5 @@ public class CheckoutSolution {
             .sum();
   }
 }
+
 

@@ -82,6 +82,12 @@ public class CheckoutSolutionTest {
         assertEquals(20, checkout.checkout("FF").intValue());
     }
 
+    @Test
+    public void testBuyTwoFGetOneFree() {
+        assertEquals(20, checkout.checkout("FFF").intValue());
+    }
+
 }
+
 
 
