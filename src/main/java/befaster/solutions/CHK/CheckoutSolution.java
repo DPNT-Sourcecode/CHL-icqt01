@@ -10,20 +10,18 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.Consumer;
 
 public class CheckoutSolution {
 
-  private Map<Character, Product> productsBySku =
-      readPriceList();
+  private Map<Character, Product> productsBySku;
 
   private SortedSet<MultiItemPackage> multiItemPackages =
       new TreeSet<>(Comparator.comparing(MultiItemPackage::getDiscount).reversed());
 
   public CheckoutSolution() {
-    // multi-item discounts
-    multiItemPackages.add(MultiItemPackage.itemDiscount(productsBySku.get('A'), 3, 130));
-    multiItemPackages.add(MultiItemPackage.itemDiscount(productsBySku.get('A'), 5, 200));
-    multiItemPackages.add(MultiItemPackage.itemDiscount(productsBySku.get('B'), 2, 45));
+    productsBySku = readPriceList();
+    multiItemPackages.addAll(readMultibuyList());
 
     // buy 2E get B free
     multiItemPackages.add(
@@ -40,19 +38,37 @@ public class CheckoutSolution {
 
   private ImmutableMap<Character, Product> readPriceList() {
     ImmutableMap.Builder<Character, Product> builder = ImmutableMap.builder();
-    try (Scanner scanner = new Scanner(getClass().getResourceAsStream("prices.txt"))) {
+    readFile("prices.txt", line -> {
+      String[] pieces = line.split(",");
+      char sku = pieces[0].charAt(0);
+      int price = Integer.parseInt(pieces[1]);
+      builder.put(sku, new Product(sku, price));
+    });
+    return builder.build();
+  }
+
+  private List<MultiItemPackage> readMultibuyList() {
+    List<MultiItemPackage> packages = new ArrayList<>();
+    readFile("multibuys.txt", line -> {
+      String[] pieces = line.split(",");
+      char sku = pieces[0].charAt(0);
+      int qty = Integer.parseInt(pieces[1]);
+      int price = Integer.parseInt(pieces[2]);
+      packages.add(MultiItemPackage.itemDiscount(productsBySku.get(sku), qty, price));
+    });
+    return packages;
+  }
+
+  private void readFile(String filename, Consumer<String> lineAction) {
+    try (Scanner scanner = new Scanner(getClass().getResourceAsStream(filename))) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
         if (line.isEmpty()) {
           continue;
         }
-        String[] pieces = line.split(",");
-        char sku = pieces[0].charAt(0);
-        int price = Integer.parseInt(pieces[1]);
-        builder.put(sku, new Product(sku, price));
+        lineAction.accept(line);
       }
     }
-    return builder.build();
   }
 
   public Integer checkout(String skus) {
@@ -77,6 +93,3 @@ public class CheckoutSolution {
             .sum();
   }
 }
-
-
-

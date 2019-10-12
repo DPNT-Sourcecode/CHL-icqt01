@@ -92,9 +92,3 @@ public class CheckoutSolutionTest {
     assertEquals(20 + 35 + 60 + 90 + 15, checkout.checkout("GIJLM").intValue());
   }
 }
-
-
-
-
-
-
