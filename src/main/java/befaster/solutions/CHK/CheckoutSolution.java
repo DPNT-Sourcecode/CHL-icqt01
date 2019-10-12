@@ -1,6 +1,7 @@
 package befaster.solutions.CHK;
 
 import com.google.common.collect.ImmutableMap;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -46,11 +47,18 @@ public class CheckoutSolution {
       basketItems.merge(productsBySku.get(item), 1, Integer::sum);
     }
     List<MultiItemPackage> packagesInBasket = new ArrayList<>();
-    while 
-    for (MultiItemPackage packageToCheck : multiItemPackages) {
-      while (packageToCheck.basketContainsAllItems(basketItems)) {
-        packagesInBasket.add(packageToCheck);
-        packageToCheck.removePackageItemsFromBasket(basketItems);
+    while (true) {
+      Pair<MultiItemPackage, MultiItemPackage.PackageEvaluation> bestPackage = null;
+      for (MultiItemPackage packageToCheck : multiItemPackages) {
+        MultiItemPackage.PackageEvaluation evaluation = packageToCheck.evaluatePackage(basketItems);
+        if (evaluation.getTotalDiscount() > 0) {
+          if (bestPackage == null || evaluation.getTotalDiscount() > bestPackage.getValue().getTotalDiscount()) {
+            bestPackage = ImmutableP
+          }
+        }
+      }
+      if (bestPackage == null) {
+        break;
       }
     }
     return packagesInBasket.stream().mapToInt(MultiItemPackage::getDiscountedPrice).sum()
@@ -59,6 +67,7 @@ public class CheckoutSolution {
             .sum();
   }
 }
+
 
 
 

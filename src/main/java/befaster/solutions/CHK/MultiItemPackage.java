@@ -72,7 +72,16 @@ public class MultiItemPackage {
       this.numPossiblePackages = numPossiblePackages;
       this.totalDiscount = totalDiscount;
     }
+
+    public int getNumPossiblePackages() {
+      return numPossiblePackages;
+    }
+
+    public int getTotalDiscount() {
+      return totalDiscount;
+    }
   }
 }
+
 
 
