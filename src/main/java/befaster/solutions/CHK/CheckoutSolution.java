@@ -12,6 +12,8 @@ import java.util.Scanner;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class CheckoutSolution {
 
@@ -23,19 +25,7 @@ public class CheckoutSolution {
   public CheckoutSolution() {
     productsBySku = readPriceList();
     multiItemPackages.addAll(readMultibuyList());
-
-    // buy 2E get B free
-    multiItemPackages.add(
-        MultiItemPackage.freeItem(
-            ImmutableMap.of(productsBySku.get('E'), 2),
-            ImmutableMap.of(productsBySku.get('B'), 1)));
-
-    // buy 2F get F free
-    multiItemPackages.add(
-        MultiItemPackage.freeItem(
-            ImmutableMap.of(productsBySku.get('F'), 2),
-            ImmutableMap.of(productsBySku.get('F'), 1)));
-
+    multiItemPackages.addAll(readFreeItemsList());
     multiItemPackages.sort(Comparator.comparing(MultiItemPackage::getDiscount).reversed());
   }
 
@@ -60,6 +50,21 @@ public class CheckoutSolution {
       packages.add(MultiItemPackage.itemDiscount(productsBySku.get(sku), qty, price));
     });
     return packages;
+  }
+
+  private List<MultiItemPackage> readFreeItemsList() {
+    List<MultiItemPackage> packages = new ArrayList<>();
+    readFile("freeitems.txt", line -> {
+      String[] pieces = line.split(",");
+      Map<Product, Integer> itemsToBuy = parseString(pieces[0]);
+      Map<Product, Integer> freeItems = parseString(pieces[1]);
+      packages.add(MultiItemPackage.freeItem(itemsToBuy, freeItems));
+    });
+    return packages;
+  }
+
+  private Map<Product, Integer> parseString(String str) {
+    return str.chars().mapToObj(sku -> productsBySku.get(sku)).collect(Collectors.toMap(Function.identity(), p -> 1, Integer::sum));
   }
 
   private void readFile(String filename, Consumer<String> lineAction) {

@@ -1,0 +1,5 @@
+EE,B
+FF,F
+NNN,M
+RRR,Q
+UUU,U
