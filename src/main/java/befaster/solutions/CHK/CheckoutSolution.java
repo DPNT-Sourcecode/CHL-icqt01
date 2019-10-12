@@ -8,10 +8,11 @@ import java.util.Map;
 public class CheckoutSolution {
 
   private Map<Character, Product> productsBySku = ImmutableMap.of(
-          'A', new Product('A', 50).withMultibuyOffer(3, 130),
+          'A', new Product('A', 50).withMultibuyOffer(3, 130).withMultibuyOffer(5, 200),
           'B', new Product('B', 30).withMultibuyOffer(2, 45),
           'C', new Product('C', 20),
-          'D', new Product('D', 15));
+          'D', new Product('D', 15),
+          'E', new Product('E', 40));
 
   public Integer checkout(String skus) {
     Map<Product, Integer> basketItems = new HashMap<>();
@@ -25,3 +26,4 @@ public class CheckoutSolution {
     return basketItems.entrySet().stream().mapToInt(entry -> entry.getKey().getTotalPrice(entry.getValue())).sum();
   }
 }
+

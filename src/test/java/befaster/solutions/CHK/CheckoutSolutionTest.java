@@ -45,5 +45,21 @@ public class CheckoutSolutionTest {
         assertEquals(-1, checkout.checkout("abc").intValue());
     }
 
+    @Test
+    public void testLargerMultibuysOnSameItem() {
+        assertEquals(200, checkout.checkout("AAAAA").intValue());
+    }
+
+    @Test
+    public void testCombiningMultibuysOnSameItem() {
+        assertEquals(380, checkout.checkout("AAAAA" + "AAA" + "A").intValue());
+    }
+
+    @Test
+    public void testProductE() {
+        assertEquals(80, checkout.checkout("EE").intValue());
+    }
+
 }
+
 
