@@ -23,6 +23,12 @@ public class CheckoutSolutionTest {
         assertEquals(-1, checkout.checkout("ABCDEFG").intValue());
     }
 
+    @Test
+    public void testMultibuyItems() {
+        assertEquals(130, checkout.checkout("AAA").intValue());
+    }
+
 }
+
 
 

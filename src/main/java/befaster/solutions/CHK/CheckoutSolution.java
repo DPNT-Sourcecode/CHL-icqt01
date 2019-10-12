@@ -3,7 +3,9 @@ package befaster.solutions.CHK;
 import befaster.runner.SolutionNotImplementedException;
 import com.google.common.collect.ImmutableMap;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CheckoutSolution {
 
@@ -14,8 +16,17 @@ public class CheckoutSolution {
           'D', 15);
 
   public Integer checkout(String skus) {
-    return skus.chars().map(sku -> pricesBySku.get((char)sku)).sum();
+    int sum = 0;
+    for (int i = 0; i < skus.length(); i++) {
+      char item = skus.charAt(i);
+      if (!pricesBySku.containsKey(item)) {
+        return -1;
+      }
+      sum += pricesBySku.get(item);
+    }
+    return sum;
   }
 }
+
 
 
