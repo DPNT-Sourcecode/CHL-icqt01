@@ -65,4 +65,10 @@ public class CheckoutSolutionTest {
         assertEquals(80, checkout.checkout("EBE").intValue());
     }
 
+    @Test
+    public void testFreeOfferClashingWithMultiBuy() {
+        assertEquals(160, checkout.checkout("EEBBEE").intValue());
+    }
+
 }
+

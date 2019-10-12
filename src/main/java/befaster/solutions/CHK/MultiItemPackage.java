@@ -3,6 +3,8 @@ package befaster.solutions.CHK;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MultiItemPackage {
 
@@ -12,6 +14,17 @@ public class MultiItemPackage {
   public MultiItemPackage(ImmutableMap<Product, Integer> itemsByQuantity, int discountedPrice) {
     this.itemsByQuantity = itemsByQuantity;
     this.discountedPrice = discountedPrice;
+  }
+
+  public static MultiItemPackage itemDiscount(Product product, int quantity, int discountedPrice) {
+    return new MultiItemPackage(ImmutableMap.of(product, quantity), discountedPrice);
+  }
+
+  public static MultiItemPackage freeItem(Map<Product, Integer> itemsToBuy, Map<Product, Integer> freeItems) {
+    Map<Product, Integer> combinedPackage = Stream.concat(itemsToBuy.entrySet().stream(), freeItems.entrySet().stream())
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Integer::sum));
+    int combinedPrice = itemsToBuy.entrySet().stream().mapToInt(entry -> entry.getKey().getUnitPrice() * entry.getValue()).sum();
+    return new MultiItemPackage(ImmutableMap.copyOf(combinedPackage), combinedPrice);
   }
 
   public ImmutableMap<Product, Integer> getItemsByQuantity() {
@@ -35,3 +48,4 @@ public class MultiItemPackage {
     return undiscountedPrice - discountedPrice;
   }
 }
+

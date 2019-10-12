@@ -25,12 +25,15 @@ public class CheckoutSolution {
 
   public CheckoutSolution() {
     // multi-item discounts
-    multiItemPackages.add(new MultiItemPackage(ImmutableMap.of(productsBySku.get('A'), 3), 130));
-    multiItemPackages.add(new MultiItemPackage(ImmutableMap.of(productsBySku.get('A'), 5), 200));
-    multiItemPackages.add(new MultiItemPackage(ImmutableMap.of(productsBySku.get('B'), 2), 45));
+    multiItemPackages.add(MultiItemPackage.itemDiscount(productsBySku.get('A'), 3, 130));
+    multiItemPackages.add(MultiItemPackage.itemDiscount(productsBySku.get('A'), 5, 200));
+    multiItemPackages.add(MultiItemPackage.itemDiscount(productsBySku.get('B'), 2, 45));
 
     // buy 2E get B free
-    multiItemPackages.add(new MultiItemPackage(ImmutableMap.of(productsBySku.get('E'), 2, productsBySku.get('B'), 1), 2 * productsBySku.get('E').getUnitPrice()));
+    multiItemPackages.add(
+        MultiItemPackage.freeItem(
+            ImmutableMap.of(productsBySku.get('E'), 2),
+            ImmutableMap.of(productsBySku.get('B'), 1)));
   }
 
   public Integer checkout(String skus) {
@@ -62,3 +65,4 @@ public class CheckoutSolution {
         .forEach((product, quantity) -> basket.merge(product, -quantity, Integer::sum));
   }
 }
+
