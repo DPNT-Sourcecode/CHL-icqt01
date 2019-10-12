@@ -47,7 +47,7 @@ public class CheckoutSolution {
     }
     List<MultiItemPackage> packagesInBasket = new ArrayList<>();
     for (MultiItemPackage packageToCheck : multiItemPackages) {
-      if (packageToCheck.basketContainsAllItems(basketItems)) {
+      while (packageToCheck.basketContainsAllItems(basketItems)) {
         packagesInBasket.add(packageToCheck);
         removeItemsFromBasket(packageToCheck, basketItems);
       }
@@ -65,4 +65,5 @@ public class CheckoutSolution {
         .forEach((product, quantity) -> basket.merge(product, -quantity, Integer::sum));
   }
 }
+
 
