@@ -13,4 +13,10 @@ public class CheckoutSolutionTest {
         assertEquals(50, checkout.checkout("A").intValue());
     }
 
+    @Test
+    public void testMultipleItemsReturnsCombinedPrice() {
+        assertEquals(65, checkout.checkout("BCD").intValue());
+    }
+
 }
+
