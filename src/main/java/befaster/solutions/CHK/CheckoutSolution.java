@@ -3,6 +3,7 @@ package befaster.solutions.CHK;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +17,8 @@ public class CheckoutSolution {
 
   private Map<Character, Product> productsBySku;
 
-  private SortedSet<MultiItemPackage> multiItemPackages =
-      new TreeSet<>(Comparator.comparing(MultiItemPackage::getDiscount).reversed());
+  private List<MultiItemPackage> multiItemPackages =
+      new ArrayList<>();
 
   public CheckoutSolution() {
     productsBySku = readPriceList();
@@ -34,6 +35,8 @@ public class CheckoutSolution {
         MultiItemPackage.freeItem(
             ImmutableMap.of(productsBySku.get('F'), 2),
             ImmutableMap.of(productsBySku.get('F'), 1)));
+
+    multiItemPackages.sort(Comparator.comparing(MultiItemPackage::getDiscount).reversed());
   }
 
   private ImmutableMap<Character, Product> readPriceList() {
@@ -93,3 +96,4 @@ public class CheckoutSolution {
             .sum();
   }
 }
+
