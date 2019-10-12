@@ -2,6 +2,7 @@ package befaster.solutions.CHK;
 
 import com.google.common.collect.ImmutableMap;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,9 +36,24 @@ public class MultiItemPackage {
     return discountedPrice;
   }
 
+  public PackageEvaluation evaluatePackage(Map<Product, Integer> basket) {
+    Map<Product, Integer> copy = new HashMap<>(basket);
+    int numBaskets = 0;
+    while (basketContainsAllItems(copy)) {
+      numBaskets++;
+      removePackageItemsFromBasket(copy);
+    }
+    return new PackageEvaluation(numBaskets, numBaskets * getDiscount());
+  }
+
   public boolean basketContainsAllItems(Map<Product, Integer> basket) {
     return itemsByQuantity.entrySet().stream()
         .allMatch(item -> basket.getOrDefault(item.getKey(), 0) >= item.getValue());
+  }
+
+  public void removePackageItemsFromBasket(Map<Product, Integer> basket) {
+    itemsByQuantity
+            .forEach((product, quantity) -> basket.merge(product, -quantity, Integer::sum));
   }
 
   public int getDiscount() {
@@ -47,5 +63,16 @@ public class MultiItemPackage {
             .sum();
     return undiscountedPrice - discountedPrice;
   }
+
+  public static class PackageEvaluation {
+    private final int numPossiblePackages;
+    private final int totalDiscount;
+
+    private PackageEvaluation(int numPossiblePackages, int totalDiscount) {
+      this.numPossiblePackages = numPossiblePackages;
+      this.totalDiscount = totalDiscount;
+    }
+  }
 }
+
 

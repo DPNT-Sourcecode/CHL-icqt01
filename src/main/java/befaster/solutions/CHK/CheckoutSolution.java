@@ -46,10 +46,11 @@ public class CheckoutSolution {
       basketItems.merge(productsBySku.get(item), 1, Integer::sum);
     }
     List<MultiItemPackage> packagesInBasket = new ArrayList<>();
+    while 
     for (MultiItemPackage packageToCheck : multiItemPackages) {
       while (packageToCheck.basketContainsAllItems(basketItems)) {
         packagesInBasket.add(packageToCheck);
-        removeItemsFromBasket(packageToCheck, basketItems);
+        packageToCheck.removePackageItemsFromBasket(basketItems);
       }
     }
     return packagesInBasket.stream().mapToInt(MultiItemPackage::getDiscountedPrice).sum()
@@ -57,13 +58,7 @@ public class CheckoutSolution {
             .mapToInt(entry -> entry.getKey().getUnitPrice() * entry.getValue())
             .sum();
   }
-
-  private void removeItemsFromBasket(
-      MultiItemPackage packageToRemove, Map<Product, Integer> basket) {
-    packageToRemove
-        .getItemsByQuantity()
-        .forEach((product, quantity) -> basket.merge(product, -quantity, Integer::sum));
-  }
 }
+
 
 
