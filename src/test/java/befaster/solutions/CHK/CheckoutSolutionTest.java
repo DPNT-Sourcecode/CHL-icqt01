@@ -70,5 +70,13 @@ public class CheckoutSolutionTest {
         assertEquals(160, checkout.checkout("EEBBEE").intValue());
     }
 
+    @Test
+    public void testBestMultibuyDiscountApplies() {
+        // 14A = 4(3A) + 2A = 4(130) + 50 = 570
+        // 14A = 2(5A) + 3A + A = 2(200) + 130 + 50 = 580
+        assertEquals(570, checkout.checkout("AAAAA" + "AAAAA" + "AAAA").intValue());
+    }
+
 }
+
 
