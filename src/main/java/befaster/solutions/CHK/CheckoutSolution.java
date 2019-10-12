@@ -1,7 +1,8 @@
 package befaster.solutions.CHK;
 
 import com.google.common.collect.ImmutableMap;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -53,12 +54,16 @@ public class CheckoutSolution {
         MultiItemPackage.PackageEvaluation evaluation = packageToCheck.evaluatePackage(basketItems);
         if (evaluation.getTotalDiscount() > 0) {
           if (bestPackage == null || evaluation.getTotalDiscount() > bestPackage.getValue().getTotalDiscount()) {
-            bestPackage = ImmutableP
+            bestPackage = ImmutablePair.of(packageToCheck, evaluation);
           }
         }
       }
       if (bestPackage == null) {
         break;
+      }
+      for (int i = 0; i < bestPackage.getValue().getNumPossiblePackages(); i++) {
+        packagesInBasket.add(bestPackage.getKey());
+        bestPackage.getKey().removePackageItemsFromBasket(basketItems);
       }
     }
     return packagesInBasket.stream().mapToInt(MultiItemPackage::getDiscountedPrice).sum()
@@ -67,6 +72,7 @@ public class CheckoutSolution {
             .sum();
   }
 }
+
 
 
 
