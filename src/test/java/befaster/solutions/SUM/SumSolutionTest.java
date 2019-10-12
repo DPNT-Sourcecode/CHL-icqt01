@@ -25,5 +25,11 @@ public class SumSolutionTest {
     public void computeSumOfNegatives() {
         assertEquals(-5, sum.compute(-2, -3));
     }
+
+    @Test
+    public void computerSumOfPositiveAndNegative() {
+        assertEquals(-1, sum.compute(99, -100));
+    }
 }
+
 
