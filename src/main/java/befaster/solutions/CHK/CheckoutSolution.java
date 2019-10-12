@@ -7,20 +7,14 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class CheckoutSolution {
 
   private Map<Character, Product> productsBySku =
-      ImmutableMap.<Character, Product>builder()
-          .put('A', new Product('A', 50))
-          .put('B', new Product('B', 30))
-          .put('C', new Product('C', 20))
-          .put('D', new Product('D', 15))
-          .put('E', new Product('E', 40))
-          .put('F', new Product('F', 10))
-          .build();
+      readPriceList();
 
   private SortedSet<MultiItemPackage> multiItemPackages =
       new TreeSet<>(Comparator.comparing(MultiItemPackage::getDiscount).reversed());
@@ -42,6 +36,23 @@ public class CheckoutSolution {
         MultiItemPackage.freeItem(
             ImmutableMap.of(productsBySku.get('F'), 2),
             ImmutableMap.of(productsBySku.get('F'), 1)));
+  }
+
+  private ImmutableMap<Character, Product> readPriceList() {
+    ImmutableMap.Builder<Character, Product> builder = ImmutableMap.builder();
+    try (Scanner scanner = new Scanner(getClass().getResourceAsStream("prices.txt"))) {
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        if (line.isEmpty()) {
+          continue;
+        }
+        String[] pieces = line.split(",");
+        char sku = pieces[0].charAt(0);
+        int price = Integer.parseInt(pieces[1]);
+        builder.put(sku, new Product(sku, price));
+      }
+    }
+    return builder.build();
   }
 
   public Integer checkout(String skus) {
@@ -66,5 +77,6 @@ public class CheckoutSolution {
             .sum();
   }
 }
+
 
 

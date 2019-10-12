@@ -88,11 +88,11 @@ public class CheckoutSolutionTest {
   }
 
   @Test
-  @Ignore
   public void testOneEachOfGIJLM() {
     assertEquals(20 + 35 + 60 + 90 + 15, checkout.checkout("GIJLM").intValue());
   }
 }
+
 
 
 
