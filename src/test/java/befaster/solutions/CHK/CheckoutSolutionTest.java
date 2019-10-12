@@ -18,5 +18,11 @@ public class CheckoutSolutionTest {
         assertEquals(65, checkout.checkout("BCD").intValue());
     }
 
+    @Test
+    public void testInvalidItemInBasketReturnsNegativeOne() {
+        assertEquals(-1, checkout.checkout("ABCDEFG").intValue());
+    }
+
 }
+
 

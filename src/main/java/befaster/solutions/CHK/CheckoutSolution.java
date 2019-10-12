@@ -14,7 +14,8 @@ public class CheckoutSolution {
           'D', 15);
 
   public Integer checkout(String skus) {
-    return pricesBySku.get(skus.charAt(0));
+    return skus.chars().map(sku -> pricesBySku.get((char)sku)).sum();
   }
 }
+
 
