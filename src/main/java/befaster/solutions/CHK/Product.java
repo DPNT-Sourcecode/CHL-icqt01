@@ -36,5 +36,3 @@ public class Product {
     return total + remaining * unitPrice;
   }
 }
-
-

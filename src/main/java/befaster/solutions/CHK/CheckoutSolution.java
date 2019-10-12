@@ -1,12 +1,9 @@
 package befaster.solutions.CHK;
 
-import befaster.runner.SolutionNotImplementedException;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CheckoutSolution {
 
@@ -28,7 +25,3 @@ public class CheckoutSolution {
     return basketItems.entrySet().stream().mapToInt(entry -> entry.getKey().getTotalPrice(entry.getValue())).sum();
   }
 }
-
-
-
-

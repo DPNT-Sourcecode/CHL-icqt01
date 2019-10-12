@@ -29,8 +29,10 @@ public class CheckoutSolutionTest {
         assertEquals(130, checkout.checkout("AAA").intValue());
     }
 
+    @Test
+    public void testMultibuyWithAdditionalItems() {
+        // 4A = 180, 2B = 45, C = 20, D = 15
+        assertEquals(260, checkout.checkout("ABACABAD").intValue());
+    }
+
 }
-
-
-
-
