@@ -31,5 +31,3 @@ public class SumSolutionTest {
         assertEquals(-1, sum.compute(99, -100));
     }
 }
-
-
