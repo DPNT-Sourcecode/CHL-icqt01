@@ -35,4 +35,15 @@ public class CheckoutSolutionTest {
         assertEquals(260, checkout.checkout("ABACABAD").intValue());
     }
 
+    @Test
+    public void testEmptyBasketReturnsZero() {
+        assertEquals(0, checkout.checkout("").intValue());
+    }
+
+    @Test
+    public void testCaseSensitive() {
+        assertEquals(-1, checkout.checkout("abc").intValue());
+    }
+
 }
+
